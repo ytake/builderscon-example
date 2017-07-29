@@ -1,0 +1,6 @@
+#!/usr/bin/env php
+<?php
+
+$serviceManager = require_once __DIR__ .'/bootstrap.php';
+$app = new \Ytake\Builderscon\Foundation\Application($serviceManager);
+$app->run();

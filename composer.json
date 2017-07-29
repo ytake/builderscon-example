@@ -1,0 +1,33 @@
+{
+  "name": "ytake/builderscon-example",
+  "description": "symfony console with kafka producer, consumer, http",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "yuuki takezawa",
+      "email": "yuuki.takezawa@comnect.jp.net"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Ytake\\Builderscon\\": "src/"
+    }
+  },
+  "require": {
+    "php": ">=7.0.0",
+    "ext-rdkafka": "*",
+    "ext-cassandra": "*",
+    "symfony/console": "^3.2",
+    "symfony/yaml": "^3.2",
+    "monolog/monolog": "^1.22",
+    "psr/log": "^1.0",
+    "zendframework/zend-servicemanager": "^3.3",
+    "zendframework/zend-diactoros": "^1.4.0",
+    "nikic/fast-route": "^1.2.0"
+  },
+  "require-dev": {
+    "kwn/php-rdkafka-stubs": "~1.0.1",
+    "ytake/gardening": "^0.3.0"
+  }
+}
