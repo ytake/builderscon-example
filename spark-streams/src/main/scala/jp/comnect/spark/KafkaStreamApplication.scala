@@ -1,16 +1,11 @@
 package jp.comnect.spark
 
-import kafka.serializer.StringDecoder
-import org.apache.spark.{SparkContext, SparkConf}
 import org.apache.spark.streaming.kafka010._
 import org.apache.spark.streaming.kafka010.LocationStrategies.PreferConsistent
 import org.apache.spark.streaming.kafka010.ConsumerStrategies.Subscribe
-import org.apache.spark.streaming.{Seconds, StreamingContext}
-import org.apache.spark.streaming.dstream.InputDStream
 import org.apache.kafka.common.serialization.StringDeserializer
-import org.apache.spark.{SparkContext, SparkConf}
 import org.apache.spark.streaming.{Seconds, StreamingContext}
-
+import org.apache.spark.sql.{SQLContext, SparkSession}
 
 /**
   *
@@ -21,27 +16,50 @@ object KafkaStreamApplication {
       "bootstrap.servers" -> "localhost:9092",
       "key.deserializer" -> classOf[StringDeserializer],
       "value.deserializer" -> classOf[StringDeserializer],
-      "group.id" -> "use_a_separate_group_id_for_each_stream",
+      "group.id" -> "kafka_builderscon_stream",
       "auto.offset.reset" -> "latest",
       "enable.auto.commit" -> (false: java.lang.Boolean)
     )
-    val conf = new SparkConf().setAppName("buildersconSmaple")
-    val streamingContext = new StreamingContext(conf, Seconds(5))
+
+    val spark = SparkSession
+      .builder
+      .master("local[*]")
+        .appName("buildersconSmaple")
+      .getOrCreate()
+
+    val streamingContext = new StreamingContext(spark.sparkContext, Seconds(5))
+
+    streamingContext.checkpoint("/tmp/")
     val topics = Array("message-topic")
     val stream = KafkaUtils.createDirectStream[String, String](
       streamingContext,
       PreferConsistent,
       Subscribe[String, String](topics, kafkaParams)
     )
+    val pairs = stream.map(record => (record.value, 1))
+    val count = pairs.updateStateByKey(updateFunc)
 
     sys.ShutdownHookThread {
       System.out.println("Gracefully stopping SparkStreaming Application")
       streamingContext.stop(true, true)
       System.out.println("SparkStreaming Application stopped")
     }
-    streamingContext.start
-    streamingContext.awaitTermination
 
-    stream.print()
+    count.foreachRDD((rdd, time) => {
+      val count = rdd.count()
+      if (count > 0) {
+        rdd.foreach(record => {
+          println(record._1)
+        })
+      }
+    })
+    count.print()
+    streamingContext.start()
+    streamingContext.awaitTermination()
+  }
+
+  def updateFunc(newValue: Seq[Int], previousValue: Option[Int]) = {
+    val newVal = newValue.sum + previousValue.getOrElse(0)
+    Some(newVal)
   }
 }

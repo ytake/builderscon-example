@@ -15,5 +15,5 @@ http://192.168.10.10:8888/
 ## spark application
 
 ```bash
-$ ~/builderscon-example/spark-streams]$ spark-submit --class jp.comnect.spark.KafkaStreamApplication target/scala-2.11/spark-streams_2.11-1.0.jar localhost 9999
+$ spark-submit --class jp.comnect.spark.KafkaStreamApplication target/scala-2.11/spark-streams_2.11-1.0.jar localhost 9999
 ```
