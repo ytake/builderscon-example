@@ -14,3 +14,6 @@ kafka:
     topic.metadata.refresh.sparse: 'true'
     log.connection.close: 'false'
     group.id: testingConsumer
+cassandra:
+  host: 192.168.10.10
+  keyspace: builderscon

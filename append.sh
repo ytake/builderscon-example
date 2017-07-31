@@ -66,11 +66,18 @@ sudo yum -y install cassandra
 sudo mv /etc/cassandra/default.conf/cassandra.yaml /etc/cassandra/conf/cassandra.yaml
 sudo sed -i "s|seeds: \"127.0.0.1\"|seeds: \"$SELF_IP\"|g" /etc/cassandra/conf/cassandra.yaml
 sudo sed -i "s|listen_address: localhost|listen_address: $SELF_IP|g" /etc/cassandra/conf/cassandra.yaml
+sudo sed -i "s|rpc_address: localhost|rpc_address: $SELF_IP|g" /etc/cassandra/conf/cassandra.yaml
+sudo sed -i "s|start_rpc: false|start_rpc: true|g" /etc/cassandra/conf/cassandra.yaml
 
 sudo systemctl enable cassandra
 sudo systemctl start cassandra
 
 echo "export CQLSH_HOST=$SELF_IP" >> /home/vagrant/.bash_profile
+echo "export CQLSH_NO_BUNDLED=true" >> /home/vagrant/.bash_profile
+
+sudo yum install python-pip -y
+sudo pip install --upgrade pip
+sudo pip install cassandra-driver
 
 wget https://github.com/ldaniels528/trifecta/releases/download/v0.22.0rc8-0.10.1.0/trifecta-ui-0.22.0rc8b-0.10.1.0.zip
 unzip trifecta-ui-0.22.0rc8b-0.10.1.0.zip

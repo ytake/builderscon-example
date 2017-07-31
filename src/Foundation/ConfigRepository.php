@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Ytake\Builderscon\Foundation;
 
+use Ytake\Builderscon\Foundation\Cassandra\ConnectionConfigure;
+
 /**
  * Class ConfigRepository
  */
