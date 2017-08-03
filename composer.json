@@ -16,8 +16,6 @@
   },
   "require": {
     "php": ">=7.0.0",
-    "ext-rdkafka": "*",
-    "ext-cassandra": "*",
     "symfony/console": "^3.2",
     "symfony/yaml": "^3.2",
     "monolog/monolog": "^1.22",
@@ -27,7 +25,11 @@
     "nikic/fast-route": "^1.2.0"
   },
   "require-dev": {
-    "kwn/php-rdkafka-stubs": "~1.0.1",
     "ytake/gardening": "^0.3.0"
+  },
+  "suggest": {
+    "ext-rdkafka": "Needed for Demo App",
+    "ext-cassandra": "Needed for Demo App",
+    "kwn/php-rdkafka-stubs": "Needed to support Auto complete"
   }
 }
