@@ -10,7 +10,7 @@ $ sbt package
 ## spark application
 
 ```bash
-$ spark-submit --class jp.comnect.spark.KafkaStreamApplication /home/vagrant/builderscon-example/spark-streams/target//scala-2.11/spark-streams_2.11-1.0.jar
+$ spark-submit --class jp.comnect.spark.KafkaStreamApplication /home/vagrant/builderscon-example/spark-streams/target/scala-2.11/spark-streams_2.11-1.0.jar
 ```
 
 ## append jar
