@@ -1,4 +1,4 @@
-# php-builderscon-example
+# builderscon-example
 
 required php7.1, Scala2.11.11, Vagrant
 
@@ -25,13 +25,45 @@ $ ./create.sh
 $ composer install
 ```
 
-## Spark UI
-spark-shell
-http://builderscon-example.app:4040/
+## Sample
+このサンプルはkafkaのmessage-topicにメッセージを送信し、
+Spark Streamingでメッセージごとの集計を行い、Cassandraへ保存するサンプルです。
+保存結果は `192.168.10.10` にアクセスしてください、
+jsonで結果が返却されます。
 
-## Kafka trifecta
-http://192.168.10.10:8888/
+### producer
+kafkaにメッセージを送信します
+
+```
+$ php kafka-console kafka:produce message-topic hello
+```
+
+*helloの部分適当な文字列を入れてください*
+
+### consumer
+kafkaに送られたメッセージを取得します
+
+```
+$ php kafka-console kafka:consume message-topic
+```
 
 ## Spark Streaming Sample Application
+spark streamingの実行は下記を参照してください
+
 [stremaing sample readme](/spark-streams/README.md).
+
+## Spark UI
+
+spark-submit実行中は下記にアクセスすることで稼働状況が描画されます
+
+spark-shell
+http://192.168.10.10:4040/
+
+## Kafka trifecta
+
+kafkaのtopic確認などは下記にアクセスしてください
+
+http://192.168.10.10:8888/
+
+
 
